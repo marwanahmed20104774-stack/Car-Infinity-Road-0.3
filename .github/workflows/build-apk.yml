@@ -1,0 +1,49 @@
+name: Build Android APK (Lifetime)
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Cordova
+        run: npm install -g cordova
+
+      - name: Create Cordova Wrapper
+        run: |
+          cordova create my-app com.ahmad.cargame CarGame
+          cd my-app
+          cordova platform add android
+          rm -rf www/*
+          cp -r ../* www/ || true
+          rm -rf www/my-app
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build APK
+        run: |
+          cd my-app
+          cordova build android --device
+
+      - name: Upload APK to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: CarGame-APK
+          path: my-app/platforms/android/app/build/outputs/apk/debug/app-debug.apk
