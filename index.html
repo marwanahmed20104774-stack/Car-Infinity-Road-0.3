@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>سباق السيارات الاحترافي v0.6</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="auth-container" id="authScreen">
+        <h2>تسجيل دخول اللاعب</h2>
+        
+        <p>أولاً: أدخل اسمك</p>
+        <input type="text" id="usernameInput" placeholder="اكتب اسمك هنا..." maxlength="15">
+        
+        <p style="margin-top: 5px;">ثانياً: أدخل كلمة المرور</p>
+        <input type="password" id="passwordInput" placeholder="اكتب الباسورد هنا..." maxlength="20">
+        
+        <p style="margin-top: 10px;">ثالثاً: اختر مستوى الصعوبة</p>
+        <select id="levelSelect">
+            <option value="easy">سهل (Easy)</option>
+            <option value="medium" selected>متوسط (Medium)</option>
+            <option value="hard">صعب (Hard)</option>
+        </select>
+
+        <p style="margin-top: 10px;">رابعاً: اختر جهاز التحكم</p>
+        <select id="deviceSelect">
+            <option value="pc" selected>كمبيوتر (أسهم الكيبورد / Space)</option>
+            <option value="mobile">موبايل (أزرار على الشاشة)</option>
+        </select>
+
+        <button onclick="loginPlayer()">دخول وبدء السباق</button>
+    </div>
+
+    <div class="game-wrapper" id="gameWrapper">
+        <div class="dashboard">
+            <div class="dash-top">
+                <div>اللاعب: <span id="playerName">--</span></div>
+                <div>المستوى: <span id="currentLevelDisplay">--</span></div>
+            </div>
+            <div class="dash-bottom">
+                <div>النقاط: <span id="score">0</span> | أعلى سكور: <span id="highScore">0</span></div>
+                <div class="fuel-container">
+                    <span>⛽:</span>
+                    <div class="fuel-bar-bg">
+                        <div class="fuel-bar" id="fuelBar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-container" id="gameArea">
+            <div class="curb curb-left" id="curbLeft"></div>
+            <div class="curb curb-right" id="curbRight"></div>
+
+            <div class="game-over" id="gameOverScreen">
+                <h2 id="gameOverTitle">حادث عنيف! 💥</h2>
+                <p>مجموع نقاطك: <span id="finalScore">0</span></p>
+                <p id="newRecordMsg" style="color: #4CAF50; display: none; font-weight: bold; margin-top: 5px;">رقم قياسي جديد! 🏆</p>
+                <button class="btn" onclick="restartGame()">حاول مرة أخرى</button>
+                <button class="btn" style="background: #555;" onclick="logout()">تغيير الحساب</button>
+            </div>
+
+            <div class="player-car" id="player">
+                <div class="spoiler"></div>
+                <div class="glass"></div>
+                <div class="wheel wl"></div><div class="wheel wr"></div>
+                <div class="wheel bl"></div><div class="wheel br"></div>
+                <div class="headlight hl"></div><div class="headlight hr"></div>
+            </div>
+
+            <div class="mobile-controls" id="mobileControls">
+                <div class="touch-btn" id="leftBtn">←</div>
+                <div class="touch-btn brake-btn" id="brakeBtn">STOP</div>
+                <div class="touch-btn" id="rightBtn">→</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

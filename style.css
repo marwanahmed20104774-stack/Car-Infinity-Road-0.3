@@ -1,0 +1,246 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none; 
+    -webkit-user-select: none;
+}
+
+body {
+    background: linear-gradient(135deg, #0b0b12, #1c1c2e);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    direction: rtl;
+}
+
+/* شاشة تسجيل الدخول */
+.auth-container {
+    display: block;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(12px);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    text-align: center;
+    width: 350px;
+    border: 1px solid rgba(255,255,255,0.1);
+    z-index: 20;
+}
+
+.auth-container h2 { margin-bottom: 12px; color: #00f2fe; }
+.auth-container p { font-size: 13px; margin-bottom: 5px; color: #aaa; text-align: right; padding-right: 5px;}
+
+.auth-container input, .auth-container select {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    outline: none;
+}
+.auth-container select option { background-color: #161623; color: white; }
+
+.auth-container button, .btn {
+    background: linear-gradient(45deg, #ff0055, #ff5500);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.2s;
+    width: 100%;
+}
+
+/* حاوي اللعبة */
+.game-wrapper {
+    display: none;
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    height: 100vh;
+    max-height: 650px;
+    margin-top: 70px;
+}
+
+.game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #252525; 
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(0,0,0,0.9);
+    border-left: 2px solid #333;
+    border-right: 2px solid #333;
+}
+
+/* الرصيف الجانبي (أصفر وأسود) */
+.curb {
+    position: absolute;
+    top: 0;
+    width: 14px;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom, #ffcc00 0px, #ffcc00 35px, #111 35px, #111 70px);
+    z-index: 2;
+}
+.curb-left { left: 0; }
+.curb-right { right: 0; }
+
+.line {
+    position: absolute;
+    width: 6px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.4);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+/* ==================== 🏎️ سيارة اللاعب والأنوار ==================== */
+.player-car {
+    position: absolute;
+    bottom: 120px; /* رفعنا العربية لفوق شوية عشان متغطيش عليها أزرار الموبايل الجديدة */
+    left: 185px;
+    width: 52px;
+    height: 92px;
+    background: linear-gradient(to top, #bd0000, #ff2a2a);
+    border-radius: 14px 14px 8px 8px;
+    z-index: 5;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    transition: background 0.1s;
+}
+
+.player-car.braking { background: linear-gradient(to top, #ff0000, #ff6666); }
+
+.player-car::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 18px;
+    width: 16px; height: 100%;
+    background: repeating-linear-gradient(to right, #fff 0px, #fff 5px, transparent 5px, transparent 11px, #fff 11px, #fff 16px);
+    opacity: 0.8;
+}
+
+.player-car::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    width: 8px; height: 5px;
+    background: #ff1a1a;
+    border-radius: 2px;
+    box-shadow: -30px 0 0 #ff1a1a, 0 10px 20px 5px #ff0000, -30px 10px 20px 5px #ff0000;
+    right: 8px;
+    z-index: 7;
+}
+.player-car.braking::after { box-shadow: -30px 0 0 #ff0000, 0 10px 30px 12px #ff0000, -30px 10px 30px 12px #ff0000; }
+
+.player-car .spoiler { position: absolute; bottom: -5px; left: -6px; width: 64px; height: 10px; background: #0a0a0a; border-radius: 3px; border-bottom: 2px solid #ff2a2a; }
+.player-car .glass { position: absolute; top: 22px; left: 7px; width: 38px; height: 25px; background: linear-gradient(180deg, #050505 20%, #222 80%); border-radius: 8px 8px 5px 5px; border: 1px solid rgba(0, 242, 254, 0.4); z-index: 6; }
+.player-car .headlight { position: absolute; top: -3px; width: 9px; height: 7px; background: #e0ffff; border-radius: 50%; z-index: 7; }
+.player-car .hl { left: 5px; box-shadow: 0 -15px 30px 8px #00f2fe, 0 0 10px #00f2fe; }
+.player-car .hr { right: 5px; box-shadow: 0 -15px 30px 8px #00f2fe, 0 0 10px #00f2fe; }
+.player-car .wheel { position: absolute; width: 9px; height: 18px; background: #050505; border-radius: 3px; border-left: 1px solid #444; }
+
+/* ==================== 🚘 سيارات الأعداء ==================== */
+.enemy-car { position: absolute; width: 50px; height: 90px; z-index: 4; }
+.enemy-car::after { content: ''; position: absolute; bottom: -2px; width: 7px; height: 5px; background: #ff1a1a; border-radius: 1px; box-shadow: -28px 0 0 #ff1a1a, 0 8px 15px 3px #ff0000, -28px 8px 15px 3px #ff0000; right: 9px; z-index: 7; }
+
+.enemy-type-0 { border-radius: 15px 15px 5px 5px; }
+.enemy-type-0 .glass { position: absolute; top: 26px; left: 8px; width: 34px; height: 20px; background: #151515; border-radius: 4px; }
+.enemy-type-1 { border-radius: 6px 6px 4px 4px; }
+.enemy-type-1 .glass { position: absolute; top: 30px; left: 5px; width: 40px; height: 16px; background: #202020; border-radius: 2px; }
+.enemy-type-2 { border-radius: 20px 20px 8px 8px; }
+.enemy-type-2 .glass { position: absolute; top: 20px; left: 9px; width: 32px; height: 28px; background: linear-gradient(to bottom, #111, #333); border-radius: 10px 10px 4px 4px; }
+
+.enemy-car .spoiler { position: absolute; bottom: -4px; left: -2px; width: 54px; height: 8px; background: #222; border-radius: 2px; }
+.enemy-car .wheel { position: absolute; width: 8px; height: 16px; background: #1a1a1a; border-radius: 2px; }
+.enemy-car .headlight { position: absolute; top: -2px; width: 7px; height: 5px; background: #ffeb3b; border-radius: 50%; }
+.enemy-car .hl { left: 6px; box-shadow: 0 -8px 12px 2px #ffeb3b; }
+.enemy-car .hr { right: 6px; box-shadow: 0 -8px 12px 2px #ffeb3b; }
+
+.wl { top: 12px; left: -6px; } .wr { top: 12px; right: -6px; } .bl { bottom: 12px; left: -6px; } .br { bottom: 12px; right: -6px; }
+
+/* ⛽ جركن البنزين */
+.fuel-item { position: absolute; width: 32px; height: 35px; background: #ffcc00; border-radius: 6px; z-index: 3; box-shadow: 0 0 15px #ffcc00; border: 2px solid #fff; }
+.fuel-item::before { content: '⛽'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; }
+
+/* 📊 لوحة البيانات */
+.dashboard { position: absolute; top: -70px; left: 0; width: 100%; background: rgba(11, 11, 18, 0.95); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 6px; }
+.dash-top, .dash-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.dashboard span { color: #00f2fe; font-weight: bold; }
+.fuel-container { display: flex; align-items: center; gap: 5px; }
+.fuel-bar-bg { width: 100px; height: 12px; background: #222; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+.fuel-bar { width: 100%; height: 100%; background: linear-gradient(to left, #ff0055, #00ffcc); box-shadow: 0 0 8px #00ffcc; transition: width 0.1s linear; }
+
+/* ==================== 🕹️ أزرار الموبايل المحدثة بالتوزيع الجديد المتباعد ==================== */
+.mobile-controls {
+    position: absolute;
+    bottom: 20px; 
+    left: 0; 
+    width: 100%; 
+    height: 90px; 
+    z-index: 10;
+    display: none; /* بيشتغل بالجافا سكريبت بس لو اختار موبايل */
+    padding: 0 10px;
+    direction: ltr !important; /* عشان نضمن تثبيت الأماكن يمين وشمال صح من غير لخبطة */
+}
+
+.touch-btn {
+    position: absolute;
+    bottom: 5px;
+    width: 80px; 
+    height: 80px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(6px);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%; 
+    color: white; 
+    font-size: 32px;
+    font-weight: bold;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    touch-action: none;
+}
+
+/* ⬅️ زرار الشمال: مثبت في أقصى الشمال تماماً */
+#leftBtn {
+    left: 15px;
+}
+
+/* ➡️ زرار اليمين: مثبت في أقصى اليمين تماماً */
+#rightBtn {
+    right: 15px;
+}
+
+/* 🛑 زرار الفرامل: مستطيل ومحطوط في النص بالظبط */
+.brake-btn {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px; 
+    height: 55px;
+    border-radius: 14px;
+    background: rgba(230, 0, 0, 0.25);
+    border: 2px solid #ff1a1a;
+    font-size: 15px; 
+    font-weight: bold; 
+    color: #ff9999;
+    box-shadow: 0 0 10px rgba(255,0,0,0.2);
+}
+
+.touch-btn:active { background: rgba(0, 242, 254, 0.4); border-color: #00f2fe; transform: translateY(2px); }
+.brake-btn:active { background: #ff0055; color: white; box-shadow: 0 0 20px #ff0000; transform: translate(-50%, 2px); }
+
+.game-over { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(10, 10, 15, 0.96); padding: 30px; border-radius: 20px; text-align: center; display: none; z-index: 15; width: 85%; border: 2px solid #ff0055; box-shadow: 0 0 35px rgba(255,0,85,0.5); }
+.game-over h2 { color: #ff0055; margin-bottom: 10px; font-size: 26px; }
